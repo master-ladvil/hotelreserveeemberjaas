@@ -1,0 +1,57 @@
+{{#if this.request.isPending}}
+    loading data..
+{{/if}}
+
+<table border = "1|0">
+    <thead>
+        <tr>
+            <th><td>Capacity</td></th>
+            <th><td>Price</td></th>
+            <th><td>RoomType</td></th>
+            <th><td>isAvailable?</td></th>
+            <th><td>RoomNumber</td></th>
+        </tr>
+    </thead>
+    {{#each this.result as |row|}}
+    <tr>
+        {{#each-in row as |key value|}}
+        <td>{{value}}</td>
+        {{/each-in}}
+    </tr>
+    {{/each}}
+</table>
+<h5>Add Room</h5>
+<form>
+    <table border = "1">
+        <tr>
+            <td><b>Capacity</b></td>
+        </tr>
+        <tr><td>
+            <select id = "capacity">
+                <option value = "1">1</option>
+                <option value = "2">2</option>
+                <option value = "4">4</option>
+                <option value = "6">6</option>
+            </select>
+        </td></tr>
+        <tr>
+            <td><b>Room Type</b></td>
+        </tr>
+        <tr><td>
+            <select id = "rtype">
+                <option value = "basic">basic</option>
+                <option value = "suite">suite</option>
+                <option value = "value">villa</option>
+            </select>
+        </td></tr>
+        <tr>
+            <td><b>Price</b></td>
+        </tr>
+        <tr><td>
+            <input type = "text" id = "price"> 
+        </td></tr>
+        <tr><td>
+            <tr><td><button type = "submit" {{action "get"}}>addroom</button></td></tr>
+        </td></tr>
+    </table>
+</form>

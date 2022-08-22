@@ -1,0 +1,22 @@
+
+<form >
+		<h1>
+			<center>Login</center>
+		</h1>
+		<table>
+			<tr>
+				<td>User Name</td>
+				<td><input type="text" id = "uname" name="uname"></td>
+			</tr>
+            <tr>
+				<td>Password</td>
+				<td><input type="text" id = "mobile" name="mobile"></td>
+                <button type = "submit" {{action "get"}}>submit</button>
+			</tr>
+        
+		</table>
+
+	</form>
+	<p>{{this.result}}</p>
+
+{{outlet}}

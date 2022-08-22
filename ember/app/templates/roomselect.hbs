@@ -1,0 +1,38 @@
+{{#if this.request.isPending}}
+  loading data...
+{{/if}}
+
+<table border="1|0">
+  <thead>
+    <tr>
+      <th><td>Capacity</td></th>
+      <th><td>Price</td></th>
+      <th><td>Room Type</td></th>
+      <th><td>Room No</td></th>
+    </tr>
+  </thead>
+  <tbody>
+   
+    {{#each this.result as |row|}}    
+      <tr>
+        {{#each-in row as |key value|}}
+          <td>{{value}}</td>
+        {{/each-in}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<form>
+  <table>
+    <tr>
+      <td><h5>Select a room number</h5></td>
+    </tr>
+    <tr><td><input type = "text" id = "roomno"></td></tr>
+    <tr><td><b>Enter the Start Date</b></td></tr>
+    <tr><td><input type = "date" placeholder="yyyy-mm-dd" id = "sdate" value = "2022-07-01" min = "2022-07-01" max = "2022-07-31"></td></tr>
+    <tr><td><b>Enter the End Date</b></td></tr>
+    <tr><td><input type = "date" placeholder="yyyy-mm-dd" id = "edate" value = "2022-07-01" min = "2022-07-01" max = "2022-07-31"></td></tr>
+    <tr><td><button type = "submit" {{action "get"}}>submit</button></td></tr>
+  </table>
+</form>
