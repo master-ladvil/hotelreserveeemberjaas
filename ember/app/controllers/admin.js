@@ -19,14 +19,13 @@ export default class AdminController extends Controller {
     $.ajax({
       url: 'http://localhost:8080/hotelres/Admin',
       method: 'GET',
-      success: function(response){
-        console.log(response)
-        if(response == 4 || response == 5){
-          dis.transitionToRoute("error");
-        }else{
-        state.value = response
+      success: function (response) {
+        console.log(response);
+        if (response == 4 || response == 5) {
+          dis.transitionToRoute('error');
+        } else {
+          state.value = response;
         }
-        
       },
       error: (xhr, status, error) =>
         (state.error = `${status}: ${xhr.statusText}`),
@@ -53,7 +52,7 @@ export default class AdminController extends Controller {
         console.log('reserve response -> ' + response);
         if (response == 1) {
           alert('room added');
-          dis.transitionToRoute("roomadded");
+          dis.transitionToRoute('roomadded');
         } else {
           alert('room addition failed');
         }

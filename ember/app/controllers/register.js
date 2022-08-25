@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import EmberResolver from 'ember-resolver';
-import Ember from 'ember';
 import $ from 'jquery';
 
 export default class RegisterController extends Controller {
@@ -22,7 +21,7 @@ export default class RegisterController extends Controller {
         console.log('response ->' + response);
         if (response == 1) {
           alert('reg successfull');
-          that.transitionToRoute('succcess');
+          that.transitionToRoute('logins');
         } else {
           alert('Reg failed');
           that.transitionToRoute('error');

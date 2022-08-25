@@ -27,7 +27,7 @@ export default class LoginsController extends Controller {
         console.log('response-> ' + response);
         if (that.result == 1) {
           alert('sucess');
-          that.transitionToRoute('roomselect');
+          that.transitionToRoute('my');
           console.log(that.result);
         } else if (that.result == 2022) {
           alert('Asuccess');

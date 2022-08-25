@@ -1,55 +1,16 @@
 import Controller from '@ember/controller';
-import { use, resource } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 
-class RequestState {
-  @tracked value;
-  @tracked error;
+export default class MyController extends Controller {
 
-  get isPending() {
-    return !this.error && !this.value;
-  }
-}
+@tracked count = 0;
 
-export default class RoomselectController extends Controller {
-  @service router;
-  @tracked room = 0;
-  @tracked count = 0;
-  //static count =0;
-
-  getroomno = (value) => {
-    console.log(value.ID);
-    this.count = value.ID;
+getroomno = (value) => {
+    console.log(value.id);
+    this.count = value.id;
     console.log(this.count);
   };
-
-  @use request = resource(({ on }) => {
-    const state = new RequestState();
-    var dis = this;
-    $.ajax({
-      url: 'http://localhost:8080/hotelres/My',
-      method: 'GET',
-      dataType: 'json',
-      success: function (response) {
-        console.log(response);
-        if (response == 0) {
-          dis.transitionToRoute('error');
-        } else {
-          state.value = response;
-        }
-      },
-      error: (xhr, status, error) =>
-        (state.error = `${status}: ${xhr.statusText}`),
-    });
-
-    return state;
-  });
-
-  get result() {
-    return this.request.value || [];
-  }
 
   @action
   get() {

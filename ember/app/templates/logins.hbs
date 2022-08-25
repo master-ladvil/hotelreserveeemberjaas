@@ -1,8 +1,10 @@
-
-<form >
+<main class="container mt-5">
+	<div class="cont">
 		<h1>
 			<center>Login</center>
 		</h1>
+<form class = "rou">
+		
 		<table>
 			<tr>
 				<td>User Name</td>
@@ -11,12 +13,12 @@
             <tr>
 				<td>Password</td>
 				<td><input type="text" id = "mobile" name="mobile"></td>
-                <button type = "submit" {{action "get"}}>submit</button>
 			</tr>
-        
 		</table>
 
 	</form>
-	<p>{{this.result}}</p>
+	<center><button class = "but" type = "submit" {{action "get"}}>Login</button></center>
+	</div>	
+</main>
 
 {{outlet}}

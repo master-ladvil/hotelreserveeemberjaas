@@ -18,12 +18,13 @@
   </thead>
   <tbody>
    
-    {{#each this.result as |row|}}  
+    {{#each this.model as |row|}}  
       <tr>
-        {{#each-in row as |key value|}}
-          <td id = {{value}}>{{value}}</td>
-        {{/each-in}}
-        <td><button class="btn btn-success active" type="button" {{on "click" (fn this.getroomno row)}}>Select</button></td>
+        <td>{{row.capacity}}</td>
+        <td>{{row.price}}</td>
+        <td>{{row.rtype}}</td>
+        <td>{{row.id}}</td>  
+        <td><button class="btn btn-success active" type="button" {{on "click" (fn this.getroomno row )}}>Select</button></td> 
       </tr>
     {{/each}}
     
