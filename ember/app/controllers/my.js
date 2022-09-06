@@ -1,12 +1,12 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import Ember from 'ember';
 
 export default class MyController extends Controller {
+  @tracked count = 0;
 
-@tracked count = 0;
-
-getroomno = (value) => {
+  getroomno = (value) => {
     console.log(value.id);
     this.count = value.id;
     console.log(this.count);

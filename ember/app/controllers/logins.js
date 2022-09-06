@@ -31,7 +31,7 @@ export default class LoginsController extends Controller {
           console.log(that.result);
         } else if (that.result == 2022) {
           alert('Asuccess');
-          that.transitionToRoute('admin');
+          that.transitionToRoute('adminindex');
         } else {
           alert('Login failed');
         }
@@ -39,6 +39,28 @@ export default class LoginsController extends Controller {
       error: function (xhr, status, error) {
         var errorMessage = xhr.status + ':' + xhr.statusText;
         alert('error' + errorMessage);
+      },
+    });
+  }
+
+  @action
+  signinn() {
+    $.ajax({
+      url: 'https://accounts.google.com/o/oauth2/v2/auth?',
+      type: 'GET',
+      data: jQuery.param({
+        response_type: 'code',
+        client_id:
+          '632357853468-c9i98eg398g759brmg8nlbg9cu2h0b4i.apps.googleusercontent.com',
+        scope: 'https://www.googleapis.com/auth/userinfo.email',
+        redirect_uri: 'http://localhost:8080/hotelres/TokenExchange',
+      }),
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        alert('error');
       },
     });
   }

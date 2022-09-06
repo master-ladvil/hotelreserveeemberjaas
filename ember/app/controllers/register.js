@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import EmberResolver from 'ember-resolver';
 import $ from 'jquery';
+import Ember from 'ember';
 
 export default class RegisterController extends Controller {
   @service router;

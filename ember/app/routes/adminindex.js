@@ -2,11 +2,11 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Ember from 'ember';
 
-export default class PostsRoute extends Route {
+export default class AdminindexRoute extends Route {
   @service store;
   async model() {
     console.log('inside router');
-    //console.log(this.store.findAll('My'));
-    return await this.store.findAll('My');
+    //console.log(this.store.findAll('adminindex'));
+    return await this.store.findAll('adminindex');
   }
 }

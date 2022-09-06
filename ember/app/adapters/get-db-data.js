@@ -1,9 +1,11 @@
 import RESTAdapter from '@ember-data/adapter/rest';
 import Ember from 'ember';
 
-export default class AdminIndexAdapter extends RESTAdapter {
+export default class GetDbDataAdapter extends RESTAdapter {
   host = 'http://localhost:8080/hotelres';
+
   pathForType() {
-    return 'My';
+    console.log('Adapters...');
+    return 'GetDbData';
   }
 }

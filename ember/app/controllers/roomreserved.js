@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import $ from 'jquery';
+import Ember from 'ember';
 
 export default class RoomreservedController extends Controller {
   @service router;

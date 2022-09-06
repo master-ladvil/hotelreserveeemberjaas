@@ -15,7 +15,10 @@ Router.map(function () {
   this.route('roomreserved');
   this.route('admin');
   this.route('roomadded');
-  this.route('embdtst');
-  this.route('posts');
   this.route('my');
+  this.route('Reservation');
+  this.route('adminindex', { path: '/adi' });
+  this.route('Myroom');
+  this.route('gsigntest');
+  this.route('adminlogoute');
 });

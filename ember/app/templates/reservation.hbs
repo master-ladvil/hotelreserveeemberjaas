@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand">Admin</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="http://localhost:4200/adi">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="http://localhost:4200/admin">Rooms</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="http://localhost:4200/Reservation">Reservations <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="http://localhost:4200/adminlogoute">Logout</a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+<main class="conttainer mt-5 ">
+<h3><center>Reservations</center></h3>
+<container class="cond">
+<table class = "table table-bordered table-striped table-hover table-sm">
+  <thead class="thead">
+    <tr>
+      <th><td>Room No</td></th>
+      <th><td>Reserved By</td></th>
+      <th><td>Check In</td></th>
+      <th><td>Check Out</td></th>
+      <th><td>Reservation Id</td></th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    {{#each this.model as |row|}}  
+      <tr>
+        <td>{{row.rid}}</td>
+        <td>{{row.fullname}}</td>
+        <td>{{row.sdate}}</td>
+        <td>{{row.edate}}</td>
+        <td>{{row.id}}</td>  
+      </tr>
+    {{/each}}
+
+    
+  </tbody>
+</table>
+</container>
+</main>

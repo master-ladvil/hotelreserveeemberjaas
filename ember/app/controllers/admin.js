@@ -3,6 +3,7 @@ import { use, resource } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Ember from 'ember';
 
 class RequestState {
   @tracked value;
@@ -19,6 +20,7 @@ export default class AdminController extends Controller {
     $.ajax({
       url: 'http://localhost:8080/hotelres/Admin',
       method: 'GET',
+
       success: function (response) {
         console.log(response);
         if (response == 4 || response == 5) {
@@ -52,7 +54,6 @@ export default class AdminController extends Controller {
         console.log('reserve response -> ' + response);
         if (response == 1) {
           alert('room added');
-          dis.transitionToRoute('roomadded');
         } else {
           alert('room addition failed');
         }

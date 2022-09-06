@@ -4,13 +4,13 @@ import { service } from '@ember/service';
 import $ from 'jquery';
 import Ember from 'ember';
 
-export default class RoomreservedController extends Controller {
+export default class AdminlogoutController extends Controller {
   @service router;
   @action
   get() {
     var dis = this;
     $.ajax({
-      url: 'http://localhost:8080/hotelres/Logout',
+      url: 'http://localhost:8080/hotelres/TokenExchange',
       method: 'GET',
       success: function (response) {
         if (response == 1) {

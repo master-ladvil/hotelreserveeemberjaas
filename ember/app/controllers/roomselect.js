@@ -3,6 +3,7 @@ import { use, resource } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Ember from 'ember';
 
 class RequestState {
   @tracked value;
