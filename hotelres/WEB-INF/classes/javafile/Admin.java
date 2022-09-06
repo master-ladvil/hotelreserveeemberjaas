@@ -11,6 +11,7 @@ import java.text.*;
 public class Admin extends HttpServlet{
 	public Connection con = null;
 	LoginContext logincontext = null;
+	
  public Admin(){
 	 try{
 			Class.forName("org.postgresql.Driver");
@@ -22,19 +23,18 @@ public class Admin extends HttpServlet{
 			System.out.println("Connection failed");
 		}
  }
-	public void service(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
-		    logincontext = AuthenticationServlet.loginContext;
+	public void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
+		    //logincontext = AuthenticationServlet.loginContext;
+			
+			int aflagg = TokenExchange.aflag;
+			System.out.println("AFLAG->>>>>>>>>>>>"+aflagg);
 			response.setContentType("text/plain");
+			response.addHeader("Access-Control-Allow-Origin", "*");
 			PrintWriter out = response.getWriter();
-			if(logincontext == null){
+			if(aflagg == 0){
 				System.out.println("nologinerror");
 				out.println(5);
-			}
-			else if(!logincontext.getSubject().getPrincipals().iterator().next().getName().equals("admin")){
-				System.out.println("reserveaccesserr");
-				out.println(4);
-			}
-			else{showRooms(response);}
+			}else{showRooms(response);}
 	}
 
 	public void showRooms(HttpServletResponse response){
@@ -47,6 +47,7 @@ public class Admin extends HttpServlet{
 			rs = stmt.executeQuery(query);
 
 			response.setContentType("text/json");
+			//response.addHeader("Access-Control-Allow-Origin","http://localhost:4200");
 			PrintWriter out = response.getWriter();
 
 			List<JSONObject> resJsonList = Tojasonrs.getResultSet(rs);
@@ -55,38 +56,6 @@ public class Admin extends HttpServlet{
 			}
 			out.println(resJsonList);
 
-
-			/*out.println("<head>");
-			out.println("<body>");
-			out.println("<h1>All rooms</h1>");
-			out.println("<table>");
-			out.println("<tr>");
-			out.println("<td><b>roomno</b></td>");
-			out.println("<td><b>capacity</b></td>");
-			out.println("<td><b>roomtype</b></td>");
-			out.println("<td><b>price</b></td>");
-			out.println("<td><b>available?</b></td>");
-			while (rs.next()) {
-				out.println("<tr>");
-				out.print("<td>" + rs.getString("id") + "</td>");
-				out.print("<td>" + rs.getString("capacity") + "</td>");
-				out.print("<td>" + rs.getString("rtype") + "</td>");
-				out.println("<td>" + rs.getString("price") + "</td>");
-				out.println("<td>" + rs.getString("isavailablle") + "</td>");
-				out.println("</tr>");
-			}
-			out.println("</table>");
-			out.println("<h1>Add Room</h1>");
-			out.println("<form method='Get' action=\"AdminFunctions\">");
-			out.println("<table>");
-			out.println("<tr>");
-			out.println("<td><h2>capacity</td></h2></tr>");
-			out.println("<select name=\"capacity\"><option value=\"1\">1</option><option value=\"2\">2</option><option value=\"4\">4</option><option value=\"6\">6</option></select>");
-			out.println("<select name=\"rtype\"><option value=\"suite\">suite</option><option value=\"basic\">basic</option><option value=\"villa\">villa</option></select></tr>");
-			out.println("<tr><td><p>Price</p></tr></td><tr><td><input type = \"text\" value = \"0.00\" name = \"price\"></tr></td>");
-			out.println("<tr><td><input type = 'submit' value = 'addroom'></td></tr>");
-			out.println("</table></form></body></html>");
-			out.println("</body>");out.println("</html>");*/
 	}catch(Exception e){
 		System.out.println(e);
 	}

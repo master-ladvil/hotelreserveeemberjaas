@@ -34,10 +34,7 @@ public class AdminFunctions extends HttpServlet {
 	}
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
-        /*int s = checkcontext();
-        if(s == 0){
-            response.sendRedirect("index.jsp");
-        }*/
+        
         int flag =0;
         String capacity = request.getParameter("capacity");
 		String rtype = request.getParameter("rtype");
@@ -48,6 +45,7 @@ public class AdminFunctions extends HttpServlet {
 		cid = getid("capacity","capacity",capacity);
         tid = getid("rtype","rtype",rtype);
         flag = addRoom(cid,tid,price,isavailablle);
+        response.addHeader("Access-Control-Allow-Origin","*"); 
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
        System.out.println("Flag -> " + flag);
@@ -85,7 +83,7 @@ public class AdminFunctions extends HttpServlet {
         }
         return 0;
     }
-    public int checkcontext()throws ServletException,IOException{
+   /*  public int checkcontext()throws ServletException,IOException{
         LoginContext logincontext = AuthenticationServlet.loginContext;
         System.out.println("[+]checking context....");
 		if(logincontext == null){
@@ -99,7 +97,7 @@ public class AdminFunctions extends HttpServlet {
             return 1;
         }
         return 0;
-    }
+    }*/
         
         
 

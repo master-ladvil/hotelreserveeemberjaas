@@ -40,6 +40,7 @@ public class My extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("[+] inside post of my.......");
+		
 		response.setContentType("text/plain");
 		PrintWriter out = response.getWriter();
 		logincontext = AuthenticationServlet.loginContext;
@@ -54,12 +55,14 @@ public class My extends HttpServlet {
 		System.out.println("room no -> " + roomno + "sdate --> "+ sdate + "edate -> "+ edate);
 		int flag = reserveroom(roomno,sdate,edate);
 		System.out.println("Flag -> "+flag);
+		response.addHeader("Access-Control-Allow-Origin","*"); 
 		out.println(flag);
 		}
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+				response.addHeader("Access-Control-Allow-Origin","*"); 
 			response.setContentType("text/plain");
 			PrintWriter out = response.getWriter();
 			System.out.println("[+]inside get method..");		
@@ -98,7 +101,7 @@ public class My extends HttpServlet {
 			for(int i =0;i<jobjlist.size();i++){
 				System.out.println(jobjlist.get(i));
 			}
-
+			response.addHeader("Access-Control-Allow-Origin","*");
 			response.setContentType("text/json");
 			PrintWriter out = response.getWriter();
 			out.println(jobjlist);

@@ -11,7 +11,7 @@ public class Tojasonrs {
             int columnCnt = rsMeta.getColumnCount();
             List<String> columnNames = new ArrayList<String>();
             for(int i = 1;i<=columnCnt;i++){
-                columnNames.add(rsMeta.getColumnName(i).toUpperCase());
+                columnNames.add(rsMeta.getColumnName(i));
             }
             while(rs.next()){
                 JSONObject jobj = new JSONObject();

@@ -15,7 +15,8 @@ import javax.sql.rowset.serial.SerialException;
 public  class AuthenticationServlet extends HttpServlet{
     public static LoginContext loginContext = null;
     protected void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
-        String name = null;    
+        String name = null;   
+        response.addHeader("Access-Control-Allow-Origin","*"); 
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         //out.println("<html><body>");
