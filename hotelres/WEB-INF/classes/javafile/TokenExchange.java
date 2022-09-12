@@ -18,13 +18,22 @@ import java.net.URL;
 import java.net.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwk.JwkProvider;
+import com.auth0.jwk.Jwk;
+import com.auth0.jwk.*;
+
 
 
 public class TokenExchange extends HttpServlet {
     public static Connection con = null;
     public static String adminemail = null;
     public static int aflag = 0;
-    
+    public final String pubkey = "21mw5OBuQDYONRNRyek-5Mwe2anpgn-1Ny_RGKU9eNO6_wWg-emzTpwKt4c7dDXgfyJEJ63L0zD_CS-FSyzksHKoGGySsDVX-6nD6n36MGxVCz5Z60wgM5FaSKpf7G3iOJi0IiutLcoYv5jl72g6k6nqrRTe5BSm7JfNedjpRzOeBm3IPQChW9OSW_fufV8q7Ty09ZbS0fU6KRnsMyCi80EYYg0ondJDd56iVUKR4f_OivS-EAZSUzjcu4uWYDzc9lOw8sCbb9oJE4HWLE1bgbQ05jxIqzD-6oztB1Mi-0fT5A8BV26MXnSLVPiTCgbSmQSiTq-I__uqxAfsg2v6OQ";
 
     public TokenExchange() {
         try {
@@ -68,6 +77,8 @@ public class TokenExchange extends HttpServlet {
             JSONParser parse = new JSONParser();
             JSONObject obj = (JSONObject) parse.parse(payload);
             int ver = checktoken(obj);
+            //int fl = verifySign(token);
+            //System.out.println("------------>  "+fl);
             if (ver == 0) {
                 aflag = 0;
             } else if (ver == 1) {
@@ -164,5 +175,21 @@ public class TokenExchange extends HttpServlet {
 
         }
     }
+    public int verifySign(String token){
+        try{//string to rsapublickey
+            DecodedJWT decodedJWT = JWT.decode(token);
+            JwkProvider = new JwkProviderBuilder(new URL("https://www.googleapis.com/oauth2/v3/certs")).build();
+            Jwk jwk = provider.get(decodedJWT.getKeyId());
+            Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(),null);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            verifier.verify(decodedJWT);
+            return 1;
+        }catch(JWTVerificationException|InvalidKeySpecException|NoSuchAlgorithmException e){
+            System.out.println("not verified");
+            
+        }
+        return 0;
+    }
+
 
 }
