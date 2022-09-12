@@ -10,7 +10,7 @@ export default class RoomreservedController extends Controller {
   get() {
     var dis = this;
     $.ajax({
-      url: 'http://localhost:8080/hotelres/Logout',
+      url: 'http://localhost:8085/hotelres/Logout',
       method: 'GET',
       success: function (response) {
         if (response == 1) {

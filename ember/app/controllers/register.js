@@ -15,7 +15,7 @@ export default class RegisterController extends Controller {
     console.log('uname ->' + uname);
     console.log('mobile -> ' + mobile);
     $.ajax({
-      url: 'http://localhost:8080/hotelres/Register',
+      url: 'http://localhost:8085/hotelres/Register',
       method: 'POST',
       data: { uname: uname, mobile: mobile },
       success: function (response) {

@@ -22,7 +22,7 @@ export default class MyController extends Controller {
       'room no -> ' + roomno + 'sdate --> ' + sdate + 'edate -> ' + edate
     );
     $.ajax({
-      url: 'http://localhost:8080/hotelres/My',
+      url: 'http://localhost:8085/hotelres/My',
       method: 'POST',
       data: { roomno: roomno, sdate: sdate, edate: edate },
       success: function (response) {

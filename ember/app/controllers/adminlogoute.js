@@ -10,7 +10,7 @@ export default class AdminlogouteController extends Controller {
   get() {
     var dis = this;
     $.ajax({
-      url: 'http://localhost:8080/hotelres/TokenExchange',
+      url: 'http://localhost:8085/hotelres/TokenExchange',
       method: 'GET',
       success: function (response) {
         if (response == 1) {

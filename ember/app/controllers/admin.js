@@ -18,7 +18,7 @@ export default class AdminController extends Controller {
     var dis = this;
     const state = new RequestState();
     $.ajax({
-      url: 'http://localhost:8080/hotelres/Admin',
+      url: 'http://localhost:8085/hotelres/Admin',
       method: 'GET',
 
       success: function (response) {
@@ -47,7 +47,7 @@ export default class AdminController extends Controller {
       'capacity -> ' + capacity + 'rtype --> ' + rtype + 'price -> ' + price
     );
     $.ajax({
-      url: 'http://localhost:8080/hotelres/AdminFunctions',
+      url: 'http://localhost:8085/hotelres/AdminFunctions',
       method: 'GET',
       data: { capacity: capacity, rtype: rtype, price: price },
       success: function (response) {

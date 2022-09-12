@@ -30,7 +30,7 @@ export default class RoomselectController extends Controller {
     const state = new RequestState();
     var dis = this;
     $.ajax({
-      url: 'http://localhost:8080/hotelres/My',
+      url: 'http://localhost:8085/hotelres/My',
       method: 'GET',
       dataType: 'json',
       success: function (response) {
@@ -62,7 +62,7 @@ export default class RoomselectController extends Controller {
       'room no -> ' + roomno + 'sdate --> ' + sdate + 'edate -> ' + edate
     );
     $.ajax({
-      url: 'http://localhost:8080/hotelres/My',
+      url: 'http://localhost:8085/hotelres/My',
       method: 'POST',
       data: { roomno: roomno, sdate: sdate, edate: edate },
       success: function (response) {
