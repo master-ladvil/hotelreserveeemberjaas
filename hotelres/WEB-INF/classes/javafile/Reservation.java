@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import javax.security.auth.login.LoginContext;
 import org.json.simple.JSONObject;
@@ -30,28 +32,34 @@ public class Reservation extends HttpServlet{
 	
 	}
 	public void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
+		String accesstoken = TokenExchange.map.get("accesstoken");
+		System.out.println("\n\naccesstoken -> "+ accesstoken + "\n\n");
 		response.addHeader("Access-Control-Allow-Origin","*"); 
 		response.setContentType("text/json");
-			PrintWriter out = response.getWriter();
-		logincontext = AuthenticationServlet.loginContext;
-		/*if(logincontext == null || !logincontext.getSubject().getPrincipals().iterator().next().getName().equals("admin"))
-		{
-			out.println(0);
-			System.out.println("unauth");
-		}else{*/
-		try{
-			System.out.println("inside Reservation...");
-			Statement stmt = null;
-			ResultSet rs = null;
-			String query = String.format("select reservation.id,fullname,sdate,edate,rid from reservation join client on reservation.clid = client.id;");
-			stmt = con.createStatement();
-			rs  = stmt.executeQuery(query);
-			List<JSONObject> resJsonList = Tojasonrs.getResultSet(rs);
-			for(int i =0;i<resJsonList.size();i++){
-				System.out.println(resJsonList.get(i));
+		PrintWriter  out = response.getWriter();
+		URL obj = new URL("http://localhost:8080/lorduoauth/Reservation");
+		HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("accesstoken",accesstoken);
+		int responseCode = conn.getResponseCode();
+		System.out.println("GET Response Code :: " + responseCode);
+		if (responseCode == HttpURLConnection.HTTP_OK) { // success
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					conn.getInputStream()));
+			String inputLine;
+			StringBuffer res = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				res.append(inputLine);
 			}
-			out.println(resJsonList);
-		}catch(Exception e){System.out.println(e);}
+			in.close();
+			
+			// print result
+			System.out.println(res.toString());
+			out.println(res);
+		} else {
+			System.out.println("GET request not worked");
+		}
 				
 //}
 }
