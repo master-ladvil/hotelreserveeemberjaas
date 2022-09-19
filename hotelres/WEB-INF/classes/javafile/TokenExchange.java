@@ -114,14 +114,19 @@ public class TokenExchange extends HttpServlet {
         Statement stmt;
         ResultSet rs = null;
         try {
-            String query = "select email from admin where id = 1";
+            String query = String.format("select count(*) from admin where email = '%s';", email);
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             rs.next();
-            String dbmail = rs.getString(1);
-            if (email.equals(dbmail)) {
+            String count = rs.getString("count");
+
+            if (count.equals("1")) {
                 adminemail = email;
-                return 1;
+                if(email.equals("admin@gmail.com")){
+                    return 1;
+                }else{
+                    return 2;
+                }
             }
         } catch (Exception e) {
             System.out.println(e);

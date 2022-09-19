@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import javax.security.auth.login.LoginContext;
 import org.json.simple.JSONObject;
@@ -32,40 +34,35 @@ public class Myroom extends HttpServlet{
 	
 	}
 	public void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
-        String id = "0";
-        String name = null;
-        String clid = null;
+        String accesstoken = TokenExchange.map.get("accesstoken");
+		System.out.println("\n\naccesstoken -> " + accesstoken + "\n\n");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.setContentType("text/json");
 		PrintWriter out = response.getWriter();
-		logincontext = AuthenticationServlet.loginContext;
-		if(logincontext == null || logincontext.getSubject().getPrincipals().iterator().next().getName().equals("admin")){
-			JSONObject ejobj = new JSONObject();
-			ejobj.put("id",id);
-			ejobj.put("error","You Are UnAuthorized");
-			System.out.println(ejobj);
-			out.println(ejobj);
-		}else{
-		try{
-			System.out.println("inside MyRoom...");
-            name = logincontext.getSubject().getPrincipals().iterator().next().getName();
-            System.out.println("name ->  "+name);
-			Statement stmt = null;
-			ResultSet rs = null;
-            ResultSet crs = null;
-            String nquery = String.format("select id from client where fullname = '%s';",name);
-            stmt = con.createStatement();
-			crs = stmt.executeQuery(nquery);
-            crs.next();
-            clid = crs.getString("id");
-            String query = String.format("select id,sdate,edate,rid from reservation where clid = '%s';",clid);
-			rs  = stmt.executeQuery(query);
-			List<JSONObject> resJsonList = Tojasonrs.getResultSet(rs);
-			for(int i =0;i<resJsonList.size();i++){
-				System.out.println(resJsonList.get(i));
+		URL obj = new URL("http://localhost:8080/lorduoauth/UserReservedRooms");
+		HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("accesstoken", accesstoken);
+		int responseCode = conn.getResponseCode();
+		System.out.println("GET Response Code :: " + responseCode);
+		if (responseCode == HttpURLConnection.HTTP_OK) { // success
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					conn.getInputStream()));
+			String inputLine;
+			StringBuffer res = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				res.append(inputLine);
 			}
-			out.println(resJsonList);
-		}catch(Exception e){System.out.println(e);}
+			in.close();
+
+			// print result
+			System.out.println(res.toString());
+			out.println(res);
+		} else {
+			System.out.println("GET request not worked");
+		}
 				
 }
 }
-}
+

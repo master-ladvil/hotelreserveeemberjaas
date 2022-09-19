@@ -1,5 +1,7 @@
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +15,13 @@ import java.text.*;
 import javax.security.auth.login.LoginContext;
 import org.json.simple.JSONObject;
 
-
-
 public class My extends HttpServlet {
 	public static Connection con = null;
 	public static String uname = null;
 	public static String mobile = null;
-	public LoginContext logincontext;
+	// public LoginContext logincontext;
 	public boolean globalflag = true;
+
 	public My() {
 		try {
 			System.out.println("[+]inside my constructor..");
@@ -36,122 +37,89 @@ public class My extends HttpServlet {
 		}
 	}
 
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("[+] inside post of my.......");
-		
+
 		response.setContentType("text/plain");
 		PrintWriter out = response.getWriter();
-		logincontext = AuthenticationServlet.loginContext;
-		System.out.println(logincontext.getSubject().getPrincipals().iterator().next().getName());
-		if(logincontext == null || logincontext.getSubject().getPrincipals().iterator().next().getName().equals("admin")){
-			out.println(5);
-		}else{
-		
+		// logincontext = AuthenticationServlet.loginContext;
+		// System.out.println(logincontext.getSubject().getPrincipals().iterator().next().getName());
+		// if(logincontext == null ||
+		// logincontext.getSubject().getPrincipals().iterator().next().getName().equals("admin")){
+		// out.println(5);
+		// }else{
+
 		String roomno = request.getParameter("roomno");
 		String sdate = request.getParameter("sdate");
 		String edate = request.getParameter("edate");
-		System.out.println("room no -> " + roomno + "sdate --> "+ sdate + "edate -> "+ edate);
-		int flag = reserveroom(roomno,sdate,edate);
-		System.out.println("Flag -> "+flag);
-		response.addHeader("Access-Control-Allow-Origin","*"); 
+		System.out.println("room no -> " + roomno + "sdate --> " + sdate + "edate -> " + edate);
+		int flag = reserveroom(roomno, sdate, edate);
+		System.out.println("Flag -> " + flag);
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		out.println(flag);
-		}
+
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-				response.addHeader("Access-Control-Allow-Origin","*"); 
-			response.setContentType("text/plain");
-			PrintWriter out = response.getWriter();
-			System.out.println("[+]inside get method..");		
-			logincontext = AuthenticationServlet.loginContext;
-			//System.out.println(logincontext.getSubject().getPrincipals().iterator().next().getName());
-			if(logincontext == null ){
-				out.println(0);
-			}else if(logincontext.getSubject().getPrincipals().iterator().next().getName().equals("admin")){
-				out.println(0);
+		System.out.println("[+]\n\n okay fuckers inside the get of my ass... \n\n");
+		
+		response.setContentType("text/plain");
+		PrintWriter out = response.getWriter();
+		String accesstoken = TokenExchange.map.get("accesstoken");
+		System.out.println("\n\naccesstoken -> " + accesstoken + "\n\n");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.setContentType("text/json");
+
+		URL obj = new URL("http://localhost:8080/lorduoauth/AvailableRoomsResources");
+		HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("accesstoken", accesstoken);
+		int responseCode = conn.getResponseCode();
+		System.out.println("GET Response Code :: " + responseCode);
+		if (responseCode == HttpURLConnection.HTTP_OK) { // success
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					conn.getInputStream()));
+			String inputLine;
+			StringBuffer res = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				res.append(inputLine);
 			}
-			else{
-				System.out.println("[+]got context obj with name ->  "+logincontext.getSubject().getPrincipals().iterator().next().getName());
-				My.uname =logincontext.getSubject().getPrincipals().iterator().next().getName();
-				System.out.println("uname-> " + uname);
-					showrooms(uname, response);
-				}
-			}
-	
-	public List<JSONObject> getJsonObject(ResultSet rs){
-		List<JSONObject> resJsonList = Tojasonrs.getResultSet(rs);
-		return resJsonList;
+			in.close();
+
+			// print result
+			System.out.println(res.toString());
+			//response.addHeader("Access-Control-Allow-Origin", "*");
+			out.println(res);
+		} else {
+			System.out.println("GET request not worked");
+		}
 	}
 
-	public void showrooms(String name, HttpServletResponse response) {
-		Statement stmt;
-		ResultSet rs = null;
+	public int reserveroom(String roomno, String sdate, String edate) {
+		String accesstoken = TokenExchange.map.get("accesstoken");
+		System.out.println("\n\naccesstoken -> " + accesstoken + "\n\n");
 		try {
-			System.out.println("[+]inside showrooms..");
-			String query = String.format(
-					"SELECT room.id,capacity,rtype,price FROM room JOIN capacity ON room.cid=capacity.id JOIN rtype ON room.tid = rtype.id WHERE isavailablle = true;");
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-			//showing json
-			List<JSONObject> jobjlist = getJsonObject(rs);
+			String url = String.format(
+					"http://localhost:8080/lorduoauth/AvailableRoomsResources?rid=%s&sdate=%s&edate=%s", roomno, sdate,
+					edate);
+			System.out.println("\n\n" + url + "\n\n");
+			URL obj = new URL(url);
+			HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("accesstoken", accesstoken);
+			int responseCode = conn.getResponseCode();
+			System.out.println("GET Response Code :: " + responseCode);
 
-			for(int i =0;i<jobjlist.size();i++){
-				System.out.println(jobjlist.get(i));
-			}
-			response.addHeader("Access-Control-Allow-Origin","*");
-			response.setContentType("text/json");
-			PrintWriter out = response.getWriter();
-			out.println(jobjlist);
-			
+			return 1;
 
 		} catch (Exception e) {
 			System.out.println(e);
+			return 0;
 		}
-	}
-	public int reserveroom(String roomno,String sdate, String edate) {
-		Statement stmt;
-        ResultSet rs = null;
-        try{
-		    System.out.println("[+] inside reserveroom uname  -> " + uname);
-            String query = String.format("select id from client where fullname = '%s';",uname);
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(query);
-            rs.next();
-            int clid = rs.getInt("id");
-            String rquery = String.format("insert into reservation(rid,clid,sdate,edate) values('%s','%s','%s','%s');",roomno,clid,sdate,edate);
-            stmt.executeUpdate(rquery);
-            System.out.println("reserved room "+roomno);
-            String upquery = String.format("update room set isavailablle = false where id = '%s';",roomno);
-            stmt.executeUpdate(upquery);
-            return 1; 
 
-        }catch(Exception e){
-            System.out.println(e);
-			return 0;
-        }
-    
-	}
-  
-	public void addsession(HttpServletRequest request)throws ServletException{
-		HttpSession session = request.getSession();
-		session.setAttribute("username",uname);
-	}
-	public int checkcontext()throws ServletException{
-		System.out.println("[+]checking context....");
-		if(logincontext == null){
-			return 0;
-		}
-		String currentuser = logincontext.getSubject().getPrincipals().iterator().next().getName();
-        if(currentuser != uname){
-            return 0;
-        }
-        else if(currentuser.equals(uname)){
-            return 1;
-        }
-        return 0;		
 	}
 
 }
