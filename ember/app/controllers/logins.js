@@ -19,7 +19,7 @@ export default class LoginsController extends Controller {
     console.log('name ->' + uname);
     console.log('mobile ->' + mobile);
     $.ajax({
-      url: 'http://localhost:8080/hotelres/AuthenticationServlet',
+      url: 'http://localhost:8085/hotelres/AuthenticationServlet',
       method: 'GET',
       data: { uname: uname, mobile: mobile },
       success: function (response) {
