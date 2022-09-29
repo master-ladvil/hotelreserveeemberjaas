@@ -21,4 +21,7 @@ Router.map(function () {
   this.route('Myroom');
   this.route('gsigntest');
   this.route('adminlogoute');
+  this.route('forceuser');
+  this.route('asf');
+  this.route('sfp');
 });

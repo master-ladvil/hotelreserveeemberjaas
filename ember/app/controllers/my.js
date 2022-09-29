@@ -29,7 +29,6 @@ export default class MyController extends Controller {
         console.log('reserve response -> ' + response);
         if (response == 1) {
           alert('room reserved');
-          dis.transitionToRoute('logins');
         } else if (response == 5) {
           dis.transitionToRoute('error');
         } else {

@@ -1,0 +1,95 @@
+<center>
+    <h4>Add User to SalesForce</h4>
+    <div>
+        <form>
+            <table>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>Username</b>
+                        </td>
+                        <td>
+                            <input type="text" id="username">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>LastName</b></td>
+                        <td><input type="text" id="lastname"></td>
+                    </tr>
+                    <tr>
+                        <td><b>FirstName</b></td>
+                        <td><input type="text" id="firstname"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b></td>
+                        <td><input type="text" id="email"></td>
+                    </tr>
+                    <tr>
+                        <td><b>isActive</b></td>
+                        <td> <select class="custom-select my-1 mr-sm-2" id="isactive">
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Alias</b></td>
+                        <td><input type="text" id="alias"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>TimeZoneSidKey</b>
+                        </td>
+                        <td>
+                            <select class="custom-select my-1 mr-sm-2" id="timezone">
+                                <option value="Asia/Colombo">Asia/Colombo</option>
+                                <option value="America/Los_Angeles">America/Los_Angeles</option>
+                                <option value="Indian/Chagos">Indian/Chagos</option>
+                                <option value="GMT">GMT</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>LocaleSidKey</b></td>
+                        <td> <select class="custom-select my-1 mr-sm-2" id="local">
+                                <option value="en_US">English</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>EmailEncodingKey</b></td>
+                        <td> <select class="custom-select my-1 mr-sm-2" id="emailencode">
+                                <option value="ISO-8859-1">General US</option>
+                                <option value="UTF-8">UTF-8</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>ProfileId</b></td>
+                        <td>
+                            <select class="custom-select my-1 mr-sm-2" id="profileid">
+                                {{#each this.model as |profile|}}
+                                    <option value = {{profile.id}}>{{profile.profilename}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>LanguageLocalekey</b></td>
+                        <td> <select class="custom-select my-1 mr-sm-2" id="langkey">
+                                <option value="en_US">English</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <center>
+                        <tr>
+                            <td><input type="submit" value="submit" {{action "submituser" }}></td>
+                        </tr>
+                    </center>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</center>
+{{outlet}}
